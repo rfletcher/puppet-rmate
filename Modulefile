@@ -1,0 +1,6 @@
+name         'rfletcher-rmate'
+version      '0.0.1'
+license      'MIT License'
+summary      'A puppet module for rmate'
+description  'Install or remove rmate'
+project_page 'https://github.com/rfletcher/puppet-rmate'
