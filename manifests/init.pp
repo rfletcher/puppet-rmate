@@ -7,11 +7,24 @@
 # [*ensure*]
 #   Possible values: present, absent
 #
+# [*standalone*]
+#   Possible values: true, false
+#
 # === Examples
 #
-#  class { 'rmate':
-#    ensure => 'present',
-#  }
+# Install the official ruby rmate script:
+#   include rmate
+#
+#   class { 'rmate': ensure => present, }
+#
+# Install the standalone bash version of rmate:
+#   class { 'rmate':
+#     ensure     => present,
+#     standalone => true,
+#   }
+#
+# Uninstall rmate:
+#   class { 'rmate': ensure => absent, }
 #
 # === Authors
 #
@@ -22,11 +35,17 @@
 # Copyright 2014 Rick Fletcher
 #
 class rmate (
-  $ensure = 'present',
+  $ensure     = present,
+  $standalone = false,
 ) {
+  $file = $standalone ? {
+    true    => 'rmate.sh',
+    default => 'rmate.rb',
+  }
+
   file { '/usr/local/bin/rmate':
     ensure => $ensure, 
-    source => 'puppet:///modules/rmate/rmate.rb',
+    source => "puppet:///modules/rmate/${file}",
     mode   => '0755'
   }
 }
